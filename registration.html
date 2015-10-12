@@ -1,0 +1,196 @@
+
+<!DOCTYPE html">
+<html>
+<head>
+
+<title>REGISTRATION FORM</title>
+
+
+
+
+<style type="text/css">
+.font {
+	font-family: Monotype Corsiva;
+}
+.colour {
+	color: #FFF;
+}
+.k {
+	font-family: Monotype Corsiva;
+}
+.k {
+	color: #F00;
+}
+</style>
+</head>
+
+<body bgcolor="#330099">
+ <?php
+	require 'connect.inc.php';
+ 	if(isset($_POST['name1']) && isset($_POST['name2']) && isset($_POST['username']) 
+	&& isset($_POST['dob1']) && isset($_POST['dob2']) && isset($_POST['dob3']) 
+	&& isset($_POST['sex']) && isset($_POST['x']) && isset($_POST['xii']) 
+	&& isset($_POST['course']) && isset($_POST['tel']) && isset($_POST['add']) 
+	&& isset($_POST['ptc']) && isset($_POST['email']) 
+	&& isset($_POST['pwd']) && isset($_POST['cpwd']) && isset($_POST['sec_que']) 
+	&& isset($_POST['answer']))
+	{
+			$name1 = $_POST['name1'];
+			$name2 = $_POST['name2'];
+			$username = $_POST['username'];
+			$dob1 = $_POST['dob1'];
+			$dob2 = $_POST['dob2'];
+			$dob3 = $_POST['dob3'];
+			$sex = $_POST['sex'];
+			$x = $_POST['x'];
+			$xii = $_POST['xii'];
+			$course = $_POST['course'];
+			$tel = $_POST['tel'];
+			$add = $_POST['add'];
+			$ptc = $_POST['ptc'];
+			$email = $_POST['email'];
+			$password = $_POST['pwd'];
+			$confirmpassword =$_POST['cpwd'];
+			$password_hash = md5($password);
+			$sec_que = $_POST['sec_que'];
+			$answer = $_POST['answer'];
+		if(!empty($_POST['name1']) && !empty($_POST['name2']) && !empty($_POST['username']) && !empty($_POST['dob1']) 
+		&& !empty($_POST['dob2']) && !empty($_POST['dob3']) && !empty($_POST['sex']) && !empty($_POST['x']) && !empty($_POST['email']) 
+		&& !empty($_POST['pwd']) && !empty($_POST['cpwd']) && !empty($_POST['sec_que']) && !empty($_POST['answer']) && !empty($_POST['xii']) && !empty($_POST['tel'])
+		&& !empty($_POST['add']) && !empty($_POST['ptc']) && !empty($_POST['course']))
+		{		
+				$query_username = "SELECT * FROM `signup` WHERE `username` LIKE '".$username."'";
+				$query_username_run = mysql_query($query_username);
+				$query_username_num_rows = mysql_num_rows($query_username_run);
+				$query_email = "SELECT * FROM `signup` WHERE `email` LIKE '".$email."'";
+				$query_email_run = mysql_query($query_email);
+				$query_email_num_rows = mysql_num_rows($query_email_run);
+
+					if($query_username_num_rows >= 1)
+					{
+						echo'Username already chosen';
+
+					}
+					else if($query_email_num_rows >=1)
+					{
+						echo'Sorry e-mail already chosenn';
+					}
+					else if($password != $confirmpassword)
+					{
+						echo'password did not match';	
+					}
+					else
+					{
+					$query = "INSERT INTO `signup`( `name1`, `name2`, `username`, `dob1`, `dob2`, `dob3`, `sex`, `x`, `xii`, `course`, `tel`, `add`, `ptc`, `email`, `password`, `sec_que`, `answer`) 
+					VALUES ( '".$name1."', '".$name2."','".$username."','".$dob1."', '".$dob2."', '".$dob3."','".$sex."', '".$x."','".$xii."','".$course."','".$tel."','".$add."', '".$ptc."','".$email."', '".$password_hash."',
+					  '".$sec_que."', '".$answer."')";
+
+							if($query_run = mysql_query($query)){
+							echo'<script>alert("You\'ve successfully signed up.");</script>';
+							}
+							else {
+								echo 'fail';
+							}
+					}	
+		}
+		else {
+			echo'Please fill in all the details.';
+		}
+	}
+	else {
+	
+		}
+	
+ 
+?>
+
+
+
+
+
+<form action="registration.php" method="post">
+<div align="center">
+  <h1><span class="colour">REGISTRATION FOR A COURSE <BR />
+  </span><BR />
+  </h1>
+</div>
+<div align="left" class="colour">
+  <h3>Name *:    <input type="text" name="name1" /><input type="text" name="name2" /><br /><required>
+Username *:<br /> <input type="text" name="username" />
+    <br />
+    
+    Password *:<br> <input type="password" name="pwd" />
+    <br />
+    Confirm Password *:<br /> <input type="password" name="cpwd" />
+    <br />
+    Gender *:<br /><select name="sex">
+              <option selected="selected" value="none">---Select---</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+
+            </select><br />
+     Date of Birth *:<br /> <input type="text" name="dob1" /> (day)<input type="text" name="dob2" />(month) <input type="text" name="dob3" />(year)<br />
+    
+    Current Email *: <br /><input type="email" name="email" size="50" />
+    <br />
+    Select Branch*:<br />
+    <select name="branch" >
+      <option selected="selected" value="none">---Select---</option>
+      <option value="cs">Computer Science</option>
+      <option value="ee">Electrical</option>
+      <option value="civil">Civil</option>
+      <option value="ec">Electronics and Communication</option>
+      <option value="it">Information Technology</option>
+      
+      
+      
+      
+    </select>
+    <br />
+    
+    Mobile No.: <br /><input type="telephone" name="tel" /><br />
+	Your Security Question:<br /> <select name="sec_que" onChange="";>
+              <option selected="selected" value="">---Select---</option>
+              <option value="school">Your first School name?</option>
+              <option value="names">Your first girlfriend's/boyfriend's name?</option>
+              <option value="teacher">Your first teacher's name?</option>
+              <option value="number">Your mobile no.?</option>
+
+            </select><br /> 
+    
+    Your Answer *:<br />
+  <input name="answer" type="text" size="30" maxlength="20" />
+    
+    <br />
+    Address *: <br /><input type="text" name="add" size="50" /><br />
+    
+    Post Code *:<br /> <input type="text" name="ptc" /><br />
+    
+    
+ 
+    
+    
+    <align ='center> 
+      <div align="center">      </div>
+    </align>
+  </h3>
+  <h3>
+    <align ="center"></align>
+  </h3>
+  <align ='center>
+    <div align="center">
+      <h3>
+        <input type="submit" value="Submit" />
+		</form>
+      </h3>
+    </div>
+  </align>
+  <h3>
+    <align ='center>
+      <div align="center"> </div>
+    </align>
+  </h3>
+</div>
+<p align="left" class="k">Note: Please make sure your details are correct before submitting form and that all fields marked with * are completed!.</p>
+</body>
+</html>
